@@ -15,7 +15,7 @@ class Home extends React.Component<any, any>{
   render() {
     return (
       <View>
-        天气真的好冷a
+        天气真的好冷aaaaa
         <AtButton type="primary" onClick={()=>{
           navigateTo({
             url: '/pages/index/index'
