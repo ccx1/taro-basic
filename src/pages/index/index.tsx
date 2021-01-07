@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {View, Button, Text} from '@tarojs/components'
 import './index.less'
 import {add, minus} from "../../actions/counter";
+import {AtButton} from "taro-ui";
+import {navigateTo} from '@tarojs/taro'
 
 class Index extends React.Component<any, any> {
   componentWillReceiveProps(nextProps) {
@@ -28,6 +30,9 @@ class Index extends React.Component<any, any> {
           this.props.dispatch(minus())
         }}>-</Button>
         <View><Text>{this.props.counter.num}</Text></View>
+        <AtButton onClick={()=>{
+          navigateTo({url:"pa"})
+        }}>去登陆</AtButton>
       </View>
     )
   }
