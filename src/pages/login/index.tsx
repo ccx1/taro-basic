@@ -5,16 +5,20 @@ import {View} from "@tarojs/components";
 
 class Login extends React.Component<any, any> {
 
+  constructor(props) {
+    super(props);
+    wx.login({
+      success(res: wx.LoginResponse) {
+        console.log(res.code)
+      }
+    })
+  }
+
   render() {
     return (
       <View>
         <AtMessage/>
         <AtButton type={"primary"} onClick={() => {
-          // wx.login({
-          //   success(res: wx.LoginResponse) {
-          //     console.log(res)
-          //   }
-          // })
           // wx.getUserInfo({
           //   success(res: wx.UserInfoResponse) {
           //     console.log(res)
