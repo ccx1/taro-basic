@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from 'react-redux'
 import {AtButton, AtMessage} from "taro-ui";
 import {View} from "@tarojs/components";
+import * as api from '../../api'
 
 class Login extends React.Component<any, any> {
 
@@ -10,8 +11,17 @@ class Login extends React.Component<any, any> {
     wx.login({
       success(res: wx.LoginResponse) {
         console.log(res.code)
+        api.getSessionKey({
+          secret:"0434b5e52554f27bb86e4555de8c0592",
+          appid:"wx492725414fd479af",
+          grant_type:"authorization_code",
+          js_code:res.code
+        }).then((res)=>{
+          console.log(res);
+        })
       }
     })
+
   }
 
   render() {
