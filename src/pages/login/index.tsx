@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux'
 import {AtButton, AtMessage} from "taro-ui";
-import {View} from "@tarojs/components";
+import {Text, View} from "@tarojs/components";
 import * as api from '../../api'
 import * as Action from "../../actions";
 
@@ -12,7 +12,6 @@ class Login extends React.Component<any, any> {
     super(props);
     wx.login({
       success(res: wx.LoginResponse) {
-        console.log(res.code)
         props.dispatch(Action.updateUserInfoCode({js_code: res.code}))
         api.getSessionKey({
           secret: "7c348b8e5f887d2e328431dfd08202bc",
@@ -20,9 +19,7 @@ class Login extends React.Component<any, any> {
           grant_type: "authorization_code",
           js_code: res.code
         }).then((res: any) => {
-          console.log(res);
           props.dispatch(Action.updateUserInfoSS({open_id: res.openid, session_key: res.session_key}))
-          // https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=你的appid&secret=你的小程序秘钥
         })
 
         api.getAccessToken({
@@ -30,7 +27,6 @@ class Login extends React.Component<any, any> {
           secret: "7c348b8e5f887d2e328431dfd08202bc",
           appid: "wx4885b83cf21c9d8d"
         }).then((res: any) => {
-          console.log(res)
           props.dispatch(Action.updateUserInfoAccessToken({access_token: res.access_token}))
         })
 
@@ -39,28 +35,29 @@ class Login extends React.Component<any, any> {
 
   }
 
+  subscribeMsg = () => {
+    wx.requestSubscribeMessage({
+      tmplIds: ["GVhh1D4euguLOA0IsNbaQ-wecxrmagbJYKPbf6Vx_Q4"],
+      success(res) {
+      }
+    })
+  }
+
   sendMsg = () => {
-    // wx.subscriptionsSetting({
-    //
-    // })
     const {
       access_token,
       open_id
     } = this.props;
     const data2 = {
-      touser:open_id,
-      template_id: "b9QGIAo9l8g_Ob1YLULu4KM4ps7eAgJw-nKfNFpIE-U",
+      touser: open_id,
+      template_id: "GVhh1D4euguLOA0IsNbaQ-wecxrmagbJYKPbf6Vx_Q4",
       page: "/pages/login/index",
-      miniprogram_state:"developer",
-      lang:"zh_CN",
       data: {
-        name3: {
-          value: "酒店",
-          color: "#4a4a4a"
+        thing1: {
+          value: "酒店"
         },
-        date2: {
-          value: "2018-03-22",
-          color: "#9b9b9b"
+        thing4: {
+          value: "起床"
         }
       }
     }
@@ -68,14 +65,16 @@ class Login extends React.Component<any, any> {
       .then((res) => {
         console.log(res);
       })
-    // console.log(this.props);
   }
 
   render() {
     return (
       <View>
         <AtMessage/>
-        <AtButton type={"primary"} onClick={() => {
+        <Text>
+          授权相关
+        </Text>
+        <AtButton onClick={() => {
           // wx.getUserInfo({
           //   success(res: wx.UserInfoResponse) {
           //     console.log(res)
@@ -114,9 +113,16 @@ class Login extends React.Component<any, any> {
         <AtButton openType={"getPhoneNumber"} onGetPhoneNumber={(e) => {
           console.log(e.detail)
         }}>获取用户手机号码</AtButton>
-
+        <Text>
+          设置
+        </Text>
         <AtButton customStyle={{marginTop: "10px"}} openType={"openSetting"}>打开设置</AtButton>
+
+        <Text>
+          订阅相关
+        </Text>
         <AtButton customStyle={{marginTop: "10px"}} openType={"subscribe"}>打开订阅</AtButton>
+        <AtButton onClick={this.subscribeMsg}>订阅消息</AtButton>
         <AtButton onClick={this.sendMsg}>发送订阅消息</AtButton>
       </View>
     );

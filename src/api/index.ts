@@ -24,4 +24,3 @@ export const templateSend = (accessToken, params) => {
     data: params
   });
 }
-

@@ -3,7 +3,7 @@ const routes = [{
   title: "首页"
 }, {
   path: 'pages/login/index',
-  title: "登录"
+  title: "授权登录"
 }, {
   path: 'pages/index/index',
   title: "测试"
