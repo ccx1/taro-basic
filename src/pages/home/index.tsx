@@ -1,5 +1,5 @@
 import React from "react";
-import {navigateTo} from '@tarojs/taro'
+import {/*navigateTo,*/switchTab} from '@tarojs/taro'
 import {View} from "@tarojs/components";
 import './index.less'
 import {AtButton} from "taro-ui";
@@ -17,9 +17,10 @@ class Home extends React.Component<any, any>{
       <View>
         天气真的好冷aaaaa
         <AtButton type="primary" onClick={()=>{
-          navigateTo({
+          switchTab({  url: '/pages/index/index'})
+          /*navigateTo({
             url: '/pages/index/index'
-          })
+          })*/
         }}>我点a</AtButton>
       </View>
     );
