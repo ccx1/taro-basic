@@ -40,22 +40,25 @@ class Login extends React.Component<any, any> {
   }
 
   sendMsg = () => {
+    // wx.subscriptionsSetting({
+    //
+    // })
     const {
       access_token,
       open_id
     } = this.props;
     const data2 = {
       touser:open_id,
-      template_id: "ZqcKc9C_yUMMTqgBeP6Ai0tn7m65C4ydtbbq8jOZfJc",
+      template_id: "b9QGIAo9l8g_Ob1YLULu4KM4ps7eAgJw-nKfNFpIE-U",
       page: "/pages/login/index",
       miniprogram_state:"developer",
       lang:"zh_CN",
       data: {
-        thing1: {
+        name3: {
           value: "酒店",
           color: "#4a4a4a"
         },
-        thing3: {
+        date2: {
           value: "2018-03-22",
           color: "#9b9b9b"
         }
