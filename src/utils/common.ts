@@ -71,12 +71,10 @@ export default {
           "content-type": opt.contentType
         },
         success(res) {
-          console.log(res)
           resolve(res.data)
         },
         fail(res) {
           // reject('出现错误,请检查网络后执行');
-          console.log(res)
           reject(res);
         }
       });

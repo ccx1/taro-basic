@@ -15,8 +15,8 @@ class Login extends React.Component<any, any> {
         console.log(res.code)
         props.dispatch(Action.updateUserInfoCode({js_code: res.code}))
         api.getSessionKey({
-          secret: "0434b5e52554f27bb86e4555de8c0592",
-          appid: "wx492725414fd479af",
+          secret: "7c348b8e5f887d2e328431dfd08202bc",
+          appid: "wx4885b83cf21c9d8d",
           grant_type: "authorization_code",
           js_code: res.code
         }).then((res: any) => {
@@ -27,8 +27,8 @@ class Login extends React.Component<any, any> {
 
         api.getAccessToken({
           grant_type: "client_credential",
-          secret: "0434b5e52554f27bb86e4555de8c0592",
-          appid: "wx492725414fd479af"
+          secret: "7c348b8e5f887d2e328431dfd08202bc",
+          appid: "wx4885b83cf21c9d8d"
         }).then((res: any) => {
           console.log(res)
           props.dispatch(Action.updateUserInfoAccessToken({access_token: res.access_token}))
@@ -40,34 +40,32 @@ class Login extends React.Component<any, any> {
   }
 
   sendMsg = () => {
-    const {props} = this.props;
-    // const data = {
-    //   touser: props.openid, //用户的openid
-    //   template_id: '模板消息ID',
-    //   page: '/pages/login/index',
-    //   form_id: "ZqcKc9C_yUMMTqgBeP6Ai0tn7m65C4ydtbbq8jOZfJc",
-    //   data: {           //模板消息要对应 有几个写几个  避免为空模板
-    //     "keyword1": {
-    //       "value": "酒店",
-    //       "color": "#4a4a4a"
-    //     },
-    //     "keyword2": {
-    //       "value": "2018-03-22",
-    //       "color": "#9b9b9b",
-    //     },
-    //     "keyword3": {
-    //       "value": "$300",
-    //       "color": "#9b9b9b"
-    //     },
-    //     "keyword4": {
-    //       "value": "中国",
-    //       "color": "#9b9b9b"
-    //     },
-    //   },
-    //   color: '#ccc',
-    //   emphasis_keyword: 'keyword1.DATA'
-    // }
-    console.log(this.props);
+    const {
+      access_token,
+      open_id
+    } = this.props;
+    const data2 = {
+      touser:open_id,
+      template_id: "ZqcKc9C_yUMMTqgBeP6Ai0tn7m65C4ydtbbq8jOZfJc",
+      page: "/pages/login/index",
+      miniprogram_state:"developer",
+      lang:"zh_CN",
+      data: {
+        thing1: {
+          value: "酒店",
+          color: "#4a4a4a"
+        },
+        thing3: {
+          value: "2018-03-22",
+          color: "#9b9b9b"
+        }
+      }
+    }
+    api.templateSend(access_token, data2)
+      .then((res) => {
+        console.log(res);
+      })
+    // console.log(this.props);
   }
 
   render() {
