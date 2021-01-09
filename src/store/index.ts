@@ -1,6 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from '../reducers'
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from '../saga'
 
 const composeEnhancers =/*
   typeof window === 'object' &&
@@ -9,8 +11,11 @@ const composeEnhancers =/*
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     }) :*/ compose
 
+const sagaMiddleware = createSagaMiddleware();
+
 const middlewares = [
-  thunkMiddleware
+  thunkMiddleware,
+  sagaMiddleware
 ]
 
 if (process.env.NODE_ENV === 'development' && process.env.TARO_ENV !== 'quickapp') {
@@ -24,5 +29,6 @@ const enhancer = composeEnhancers(
 
 export default function configStore () {
   const store = createStore(rootReducer, enhancer)
-  return store
+  sagaMiddleware.run(rootSaga)
+  return store;
 }

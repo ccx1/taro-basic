@@ -3,35 +3,14 @@ import {connect} from 'react-redux'
 import {AtButton, AtMessage} from "taro-ui";
 import {Text, View} from "@tarojs/components";
 import * as api from '../../api'
-import * as Action from "../../actions";
+
+// import * as Action from "../../actions";
 
 
 class Login extends React.Component<any, any> {
 
   constructor(props) {
     super(props);
-    wx.login({
-      success(res: wx.LoginResponse) {
-        props.dispatch(Action.updateUserInfoCode({js_code: res.code}))
-        api.getSessionKey({
-          secret: "7c348b8e5f887d2e328431dfd08202bc",
-          appid: "wx4885b83cf21c9d8d",
-          grant_type: "authorization_code",
-          js_code: res.code
-        }).then((res: any) => {
-          props.dispatch(Action.updateUserInfoSS({open_id: res.openid, session_key: res.session_key}))
-        })
-
-        api.getAccessToken({
-          grant_type: "client_credential",
-          secret: "7c348b8e5f887d2e328431dfd08202bc",
-          appid: "wx4885b83cf21c9d8d"
-        }).then((res: any) => {
-          props.dispatch(Action.updateUserInfoAccessToken({access_token: res.access_token}))
-        })
-
-      }
-    })
 
   }
 
@@ -48,7 +27,7 @@ class Login extends React.Component<any, any> {
       access_token,
       open_id
     } = this.props;
-    const data2 = {
+    const data = {
       touser: open_id,
       template_id: "GVhh1D4euguLOA0IsNbaQ-wecxrmagbJYKPbf6Vx_Q4",
       page: "/pages/login/index",
@@ -61,7 +40,7 @@ class Login extends React.Component<any, any> {
         }
       }
     }
-    api.templateSend(access_token, data2)
+    api.templateSend(access_token, data)
       .then((res) => {
         console.log(res);
       })
@@ -75,11 +54,6 @@ class Login extends React.Component<any, any> {
           授权相关
         </Text>
         <AtButton onClick={() => {
-          // wx.getUserInfo({
-          //   success(res: wx.UserInfoResponse) {
-          //     console.log(res)
-          //   }
-          // })
           wx.getSetting({
             success(res) {
               console.log(res);
@@ -112,16 +86,15 @@ class Login extends React.Component<any, any> {
         }}>授权微信获取信息</AtButton>
         <AtButton openType={"getPhoneNumber"} onGetPhoneNumber={(e) => {
           console.log(e.detail)
-        }}>获取用户手机号码</AtButton>
+        }}>获取用户手机号码(测试账号使用)</AtButton>
         <Text>
           设置
         </Text>
         <AtButton customStyle={{marginTop: "10px"}} openType={"openSetting"}>打开设置</AtButton>
-
         <Text>
           订阅相关
         </Text>
-        <AtButton customStyle={{marginTop: "10px"}} openType={"subscribe"}>打开订阅</AtButton>
+        <AtButton openType={"subscribe"}>打开订阅</AtButton>
         <AtButton onClick={this.subscribeMsg}>订阅消息</AtButton>
         <AtButton onClick={this.sendMsg}>发送订阅消息</AtButton>
       </View>
