@@ -4,12 +4,14 @@ import rootReducer from '../reducers'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from '../saga'
 
-const composeEnhancers =/*
-  typeof window === 'object' &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+const win = window as any;
+
+const composeEnhancers =
+  typeof win === 'object' &&
+  win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    win.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    }) :*/ compose
+    }) : compose
 
 const sagaMiddleware = createSagaMiddleware();
 

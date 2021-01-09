@@ -1,9 +1,11 @@
 const routes = [{
   path: 'pages/home/index',
-  title: "首页"
+  title: "首页",
+  addBar: true
 }, {
   path: 'pages/login/index',
-  title: "授权登录"
+  title: "用户相关",
+  addBar: true
 }, {
   path: 'pages/index/index',
   title: "测试"
@@ -17,15 +19,19 @@ function wrapRoutePath(routers: Array<any>) {
 }
 
 function wrapNavigationRoutePath(routers: Array<any>) {
-  return routers.map((router) => ({
+  const filter = routers.filter((item: any) => !!item.addBar);
+  if (filter.length > 5) {
+    throw new Error('bottom bar item size() > 5')
+  }
+  return filter.map((router) => ({
     pagePath: router.path,
     text: router.title
   }));
 }
 
 
-const pages = wrapRoutePath(routes);
-const bottomNavigationBar = wrapNavigationRoutePath(routes);
+export const pages = wrapRoutePath(routes);
+export const bottomNavigationBar = wrapNavigationRoutePath(routes);
 
 export default {
   pages,

@@ -1,8 +1,12 @@
 import React from "react";
 import {connect} from 'react-redux'
 import {AtButton, AtMessage} from "taro-ui";
-import {Text, View} from "@tarojs/components";
+import {Image, Text, View} from "@tarojs/components";
 import * as api from '../../api'
+import UserIcon from './img/user.png'
+import './index.less'
+import {IUserInfo} from "../../reducers/userInfo";
+import * as UserAction from '../../actions/userAction';
 
 // import * as Action from "../../actions";
 
@@ -47,9 +51,22 @@ class Login extends React.Component<any, any> {
   }
 
   render() {
+    const userInfo: IUserInfo = this.props.userInfo;
+    const {dispatch} = this.props;
     return (
-      <View>
+      <View className={"login-wrapper"}>
         <AtMessage/>
+        <View className={"user-info-wrapper"}>
+          <View>
+            <Image className={"user-icon"} src={userInfo.avatarUrl ? userInfo.avatarUrl : UserIcon}/>
+          </View>
+          {
+            userInfo.nickName ? <Text>
+              欢迎用户 ： {userInfo.nickName}
+            </Text> : null
+          }
+        </View>
+
         <Text>
           授权相关
         </Text>
@@ -77,12 +94,12 @@ class Login extends React.Component<any, any> {
             }
           })
         }}>授权照相机</AtButton>
-
         {/*wx.authorize({scope: "scope.userInfo"})，不会弹出授权窗口，请使用 <button open-type="getUserInfo"/>*/}
         {/*需要授权 scope.userLocation、scope.userLocationBackground*/}
         {/*后续可以判断。 先判断有没有权限， 如果曾经授权过，但是没有同意授权，去打开谁，否则去调用这个按钮。*/}
         <AtButton openType={"getUserInfo"} onGetUserInfo={(e) => {
-          console.log(e.detail)
+          const {avatarUrl, nickName} = e.detail.userInfo;
+          dispatch(UserAction.updateUserInfo({avatarUrl, nickName}))
         }}>授权微信获取信息</AtButton>
         <AtButton openType={"getPhoneNumber"} onGetPhoneNumber={(e) => {
           console.log(e.detail)
@@ -105,7 +122,7 @@ class Login extends React.Component<any, any> {
 
 
 const mapStateToProps = state => {
-  const userInfo = state.userInfo;
-  return {...userInfo};
+  const {pageInfo, userInfo} = state;
+  return {...pageInfo, userInfo};
 };
 export default connect(mapStateToProps)(Login);

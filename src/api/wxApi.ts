@@ -1,7 +1,6 @@
 import common from "../utils/common";
 import * as config from "../constants/conf";
 
-
 export const getWxCode = () => {
   return new Promise<string>((resolve, reject) => {
     wx.login({
@@ -10,6 +9,25 @@ export const getWxCode = () => {
       },
       fail(res: any) {
         reject(res)
+      }
+    })
+  })
+}
+
+export const getDefaultUserInfo = () => {
+  return new Promise((resolve) => {
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success(res: wx.UserInfoResponse) {
+              const {avatarUrl, nickName} = res.userInfo;
+              resolve({avatarUrl, nickName})
+            }
+          })
+        } else {
+          resolve({avatarUrl: '', nickName: ''})
+        }
       }
     })
   })

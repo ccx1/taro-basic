@@ -1,5 +1,5 @@
 import React from "react";
-import {switchTab} from '@tarojs/taro'
+import {/*switchTab,*/navigateTo} from '@tarojs/taro'
 import {View, Swiper, SwiperItem, Image} from "@tarojs/components";
 import './index.less'
 import {AtButton, AtGrid, AtList, AtListItem} from "taro-ui";
@@ -100,8 +100,8 @@ class Home extends React.Component<any, any> {
           />
         </AtList>
         <AtButton type="primary" onClick={() => {
-          switchTab({url: '/pages/index/index'})
-        }}>我点a</AtButton>
+          navigateTo({url: '/pages/index/index'})
+        }}>去测试页面</AtButton>
       </View>
     );
   }

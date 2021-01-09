@@ -1,32 +1,29 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export const userInfo = (state: {
-  js_code: string;
-  session_key: string;
-  open_id: string;
-  access_token: string;
-} = {
-  js_code: '',
-  session_key: '',
-  open_id: '',
-  access_token: ''
+export interface IUserInfo {
+  avatarUrl: string; // 头像
+  country?: string;// 国家
+  province?: string;// 省
+  city?: string;// 城市
+  gender?: number; //男1 女0
+  language?: string; // 语言
+  nickName: string; // 昵称
+}
+
+export const userInfo = (state: IUserInfo = {
+  avatarUrl: '',
+  country: undefined,
+  province: undefined,
+  city: undefined,
+  gender: -1,
+  language: undefined,
+  nickName: ''
 }, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_USER_INFO:
       return {
         ...state,
-        js_code: action.userInfo.js_code
-      };
-    case actionTypes.UPDATE_USER_SS_INFO:
-      return {
-        ...state,
-        session_key: action.userInfo.session_key,
-        open_id: action.userInfo.open_id
-      };
-    case actionTypes.UPDATE_USER_ACCESS_TOKEN:
-      return {
-        ...state,
-        access_token: action.userInfo.access_token
+        ...action.userInfo
       };
     default:
       return state;
